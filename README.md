@@ -9,7 +9,7 @@ This project implements a statistical arbitrage strategy comparing the volatilit
 ### 1. **Daily Return**
 
 Calculates the daily rate of return for asset prices:
-$$r*t = \frac{P_t}{P*{t-1}} - 1$$
+r*t = $$\frac{P_t}{P*{t-1}} - 1$$
 
 ---
 
@@ -97,3 +97,71 @@ $$\text{Adjusted Value} = \text{Entry Price} \cdot (1 - \text{Interest}) \cdot (
 - Interest Rate on Held Capital: **0.05%**
 - Signals triggered by Z-score threshold of **±30**
 - Strategy assumes zero slippage
+
+# Volatility Tech (vtech.py)
+
+This project analyzes the relationship between the volatilities of Bitcoin and Nvidia stock using statistical modeling, particularly ANOVA (Analysis of Variance) with quadratic and cubic polynomial regression.
+
+## Overview
+
+The script reads historical price data for Bitcoin and Nvidia, aligns their dates, computes daily returns and rolling volatilities, and applies ANOVA regression to study their relationship.
+
+It visualizes this relationship using scatter plots overlaid with fitted quadratic and cubic regression lines.
+
+## Used Formulas
+
+### Volatility
+
+$$
+\sigma_X(i) = \sqrt{\frac{1}{200} \sum_{j=i-200}^{i-1} (X_j - \bar{X})^2}
+$$
+
+$$
+\sigma_Y(i) = \sqrt{\frac{1}{200} \sum_{j=i-200}^{i-1} (Y_j - \bar{Y})^2}
+$$
+
+### Quadratic Polynomial Regression
+
+$$
+y = \beta_0 + \beta_1 x + \beta_2 x^2 + \epsilon
+$$
+
+### Cubic Polynomial Regression
+
+$$
+y = \beta_0 + \beta_1 x + \beta_2 x^3 + \epsilon
+$$
+
+### Residual Sum of Squares (RSS)
+
+$$
+\text{RSS} = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+$$
+
+### Variance Factor
+
+$$
+\text{factor} = \frac{\text{RSS}}{n - m - 1}
+$$
+
+### Standard Error of Coefficients
+
+$$
+\text{std\_err}_i = \sqrt{\left( \text{factor} \cdot (X^T X)^{-1} \right)_{ii}}
+$$
+
+### T-statistic for Each Coefficient
+
+$$
+t_i = \frac{\beta_i}{\text{std\_err}_i}
+$$
+
+### P-values (One-sided)
+
+$$
+p_i =
+\begin{cases}
+\Phi(t_i), & \text{if } t_i < 0 \\
+1 - \Phi(t_i), & \text{if } t_i \geq 0
+\end{cases}
+$$

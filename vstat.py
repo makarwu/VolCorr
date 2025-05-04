@@ -58,8 +58,8 @@ def StatArb(vx, vy, btc, nvda):
 
             yield Z, btc[i], nvda[i]
 
-bitcoin = pd.read_csv('BTC-USD.csv')[::-1]
-nvidia = pd.read_csv('NVDA.csv')[::-1]
+bitcoin = pd.read_csv('./BTC-USD.csv')[::-1]
+nvidia = pd.read_csv('./NVDA.csv')[::-1]
 
 btc_date = bitcoin['Time'].values.tolist()
 nvd_date = nvidia['date'].values.tolist()
@@ -86,13 +86,13 @@ entrynvda = 0
 
 for tstat, btc_price, nvda_price in StatArb(vx, vy, btc, nvda):
 
-    if position == 'longnvda' and tstat > 30:
+    if position == 'longnvda' and tstat > 2.33:
         position = 'neutral'
         balanceBTC += (entrybtc*(1-intrate)*(1-txfee) - btc_price*(1+txfee))*volbtc
         balanceNVDA += (nvda_price*(1-txfee) - entrynvda*(1+txfee))*volnvda
         print('Bitcoin Balance: {} | Nvidia Balance: {}'.format('{0:.2f}'.format(balanceBTC), '{0:.2f}'.format(balanceNVDA)))
 
-    if position == 'neutral' and tstat < -30:
+    if position == 'neutral' and tstat < -2.33:
         position = 'longnvda'
         volbtc = 0.9*balanceBTC / btc_price
         volnvda = int(0.9*balanceNVDA/nvda_price)
@@ -100,13 +100,13 @@ for tstat, btc_price, nvda_price in StatArb(vx, vy, btc, nvda):
         entrynvda = nvda_price
 
     
-    if position == 'longbtc' and tstat < -30:
+    if position == 'longbtc' and tstat < -2.33:
         position = 'neutral'
         balanceBTC += (btc_price*(1-txfee) - entrybtc*(1+txfee))*volbtc
         balanceNVDA += (entrynvda*(1-txfee)*(1-intrate) - nvda_price*(1-txfee))*volnvda
         print('Bitcoin Balance: {} | Nvidia Balance: {}'.format('{0:.2f}'.format(balanceBTC), '{0:.2f}'.format(balanceNVDA)))
 
-    if position == 'neutral' and tstat > 30:
+    if position == 'neutral' and tstat > 2.33:
         position = 'longbtc'
         volbtc = 0.9*balanceBTC / btc_price
         volnvda = int(0.9*balanceNVDA/nvda_price)
