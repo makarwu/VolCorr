@@ -9,7 +9,10 @@ This project implements a statistical arbitrage strategy comparing the volatilit
 ### 1. **Daily Return**
 
 Calculates the daily rate of return for asset prices:
-r*t = $$\frac{P_t}{P*{t-1}} - 1$$
+
+$$
+r*t = \frac{P_t}{P*{t-1}} - 1
+$$
 
 ---
 
@@ -100,8 +103,6 @@ $$\text{Adjusted Value} = \text{Entry Price} \cdot (1 - \text{Interest}) \cdot (
 
 # Volatility Tech (vtech.py)
 
-This project analyzes the relationship between the volatilities of Bitcoin and Nvidia stock using statistical modeling, particularly ANOVA (Analysis of Variance) with quadratic and cubic polynomial regression.
-
 ## Overview
 
 The script reads historical price data for Bitcoin and Nvidia, aligns their dates, computes daily returns and rolling volatilities, and applies ANOVA regression to study their relationship.
@@ -153,7 +154,7 @@ $$
 ### T-statistic for Each Coefficient
 
 $$
-t_i = \frac{\beta_i}{\text{std\_err}_i}
+t_i = \frac{\beta_i}{\text{std\_err}\_i}
 $$
 
 ### P-values (One-sided)
